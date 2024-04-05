@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineTixxBack", "CineTixxBack.csproj", "{C45BE770-E2B5-44F3-8651-7EBB92875DB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineTixx.Core", "..\Core\CineTixx.Core.csproj", "{E48C8083-D713-47AE-ADAF-3B3C3F9B6660}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineTixx.Persistence", "..\CineTixx.Persistence\CineTixx.Persistence.csproj", "{C73E502F-BD55-49C3-918B-145D628D5FBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineTixx.API", "..\CineTixx.API\CineTixx.API.csproj", "{44D29F36-20E9-4E6E-A565-0D51FD869636}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C45BE770-E2B5-44F3-8651-7EBB92875DB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C45BE770-E2B5-44F3-8651-7EBB92875DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C45BE770-E2B5-44F3-8651-7EBB92875DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C45BE770-E2B5-44F3-8651-7EBB92875DB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E48C8083-D713-47AE-ADAF-3B3C3F9B6660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E48C8083-D713-47AE-ADAF-3B3C3F9B6660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E48C8083-D713-47AE-ADAF-3B3C3F9B6660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E48C8083-D713-47AE-ADAF-3B3C3F9B6660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C73E502F-BD55-49C3-918B-145D628D5FBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C73E502F-BD55-49C3-918B-145D628D5FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C73E502F-BD55-49C3-918B-145D628D5FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C73E502F-BD55-49C3-918B-145D628D5FBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44D29F36-20E9-4E6E-A565-0D51FD869636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44D29F36-20E9-4E6E-A565-0D51FD869636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44D29F36-20E9-4E6E-A565-0D51FD869636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44D29F36-20E9-4E6E-A565-0D51FD869636}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99A57037-C94F-4E29-8C9E-4BA4DD87E0A3}
+	EndGlobalSection
+EndGlobal
