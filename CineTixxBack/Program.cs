@@ -1,3 +1,4 @@
+using CineTixx.Core;
 using CineTixx.Core.Ports.Driven;
 using CineTixx.Core.Ports.Driving;
 using CineTixx.Core.Services;
@@ -19,10 +20,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 
-builder.Services.AddScoped<ICinemaRoomRepository, CinemaRoomRepository>();
-
-builder.Services.AddScoped<ICinemaRoomService, CinemaRoomService>();
-builder.Services.AddAutoMapper(typeof(CinemaRoomService).Assembly);
+RepositoryDIConfiguration.Configure(builder.Services);
+ServicesDIConfiguration.Configure(builder.Services, builder.Configuration);
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 var app = builder.Build();
 
