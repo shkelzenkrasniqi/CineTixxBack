@@ -9,6 +9,7 @@ namespace CineTixx.Core
         public MappingProfile()
         {
             CreateMap<CinemaRoom, CinemaRoomDto>().ReverseMap();
+            CreateMap<Seat, SeatDto>().ReverseMap();
         }
     }
 }

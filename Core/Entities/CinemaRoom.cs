@@ -6,8 +6,9 @@
         public int RoomNumber { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
-        public int Capacity { get; set; }
+        public int NumberOfSeats { get; set; }
         public bool Is3D { get; set; }
-        public bool HasIMAX { get; set; }
+        public ICollection<Seat> Seats { get; set; }
+
     }
 }

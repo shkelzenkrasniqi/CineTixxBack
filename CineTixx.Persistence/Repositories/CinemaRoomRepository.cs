@@ -3,16 +3,10 @@ using CineTixx.Core.Ports.Driven;
 using CineTixx.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace CineTixx.Persistence
+namespace CineTixx.Persistence.Repositories
 {
-    public class CinemaRoomRepository : ICinemaRoomRepository
+    internal sealed class CinemaRoomRepository(ApplicationDbContext _context) : ICinemaRoomRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public CinemaRoomRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
         public async Task<IEnumerable<CinemaRoom>> GetAllAsync()
         {
             return await _context.CinemaRooms.ToListAsync();

@@ -9,17 +9,8 @@ namespace CineTixx.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CinemaRoomController : ControllerBase
+    public class CinemaRoomController(ICinemaRoomService _cinemaRoomService, IMapper _mapper) : ControllerBase
     {
-        private readonly ICinemaRoomService _cinemaRoomService;
-        private readonly IMapper _mapper;
-
-        public CinemaRoomController(ICinemaRoomService cinemaRoomService, IMapper mapper)
-        {
-            _cinemaRoomService = cinemaRoomService;
-            _mapper = mapper;
-        }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CinemaRoomDto>>> GetAllCinemaRooms()
         {
