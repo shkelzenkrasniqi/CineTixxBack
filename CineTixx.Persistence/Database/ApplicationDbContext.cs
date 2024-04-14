@@ -10,5 +10,6 @@ namespace CineTixx.Persistence.Database
         }
         public DbSet<CinemaRoom> CinemaRooms { get; set; }
         public DbSet<Seat> Seats { get; set; }
+        public DbSet<Movie> Movies { get; set; }
     }
 }
