@@ -1,4 +1,5 @@
-﻿using CineTixx.Core.Ports.Driven;
+﻿using CineTixx.Core.Entities;
+using CineTixx.Core.Ports.Driven;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -11,6 +12,7 @@ namespace CineTixx.Persistence
         public static void Configure(IServiceCollection services)
         {
             services.AddScoped<ICinemaRoomRepository, CinemaRoomRepository>();
+            services.AddScoped<IBookingRepository, BookingRepository>();
         }
     }
 }

@@ -9,5 +9,17 @@ namespace CineTixx.Persistence.Database
         {
         }
         public DbSet<CinemaRoom> CinemaRooms { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.User)
+                .WithMany(u => u.Bookings)
+                .HasForeignKey(b => b.UserId);
+        }
+
     }
 }

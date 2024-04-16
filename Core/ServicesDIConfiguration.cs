@@ -10,6 +10,7 @@ namespace CineTixx.Core
         public static void Configure(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ICinemaRoomService, CinemaRoomService>();
+            services.AddScoped<IBookingService, BookingService>();
 
         }
     }
