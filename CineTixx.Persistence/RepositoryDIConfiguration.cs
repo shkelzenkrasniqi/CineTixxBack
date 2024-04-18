@@ -13,7 +13,8 @@ namespace CineTixx.Persistence
         {
             services.AddScoped<ICinemaRoomRepository, CinemaRoomRepository>();
             services.AddScoped<ISeatRepository, SeatRepository>();
-
+            services.AddScoped<IStaffRepository, StaffRepository>();
+            services.AddScoped<IPositionRepository, PositionRepository>();
         }
     }
 }
