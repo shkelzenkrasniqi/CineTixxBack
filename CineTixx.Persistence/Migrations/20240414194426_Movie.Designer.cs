@@ -4,6 +4,7 @@ using CineTixx.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineTixx.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240414194426_Movie")]
+    partial class Movie
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,33 +71,6 @@ namespace CineTixx.Persistence.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("CineTixx.Core.Entities.Screening", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CinemaRoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CinemaRoomId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("Screenings");
-                });
-
             modelBuilder.Entity("CineTixx.Core.Entities.Seat", b =>
                 {
                     b.Property<Guid>("Id")
@@ -115,25 +91,6 @@ namespace CineTixx.Persistence.Migrations
                     b.HasIndex("CinemaRoomId");
 
                     b.ToTable("Seats");
-                });
-
-            modelBuilder.Entity("CineTixx.Core.Entities.Screening", b =>
-                {
-                    b.HasOne("CineTixx.Core.Entities.CinemaRoom", "CinemaRoom")
-                        .WithMany()
-                        .HasForeignKey("CinemaRoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CineTixx.Core.Entities.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CinemaRoom");
-
-                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("CineTixx.Core.Entities.Seat", b =>

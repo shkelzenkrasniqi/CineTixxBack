@@ -5,6 +5,7 @@ using CineTixx.Core.Services;
 using CineTixx.Persistence;
 using CineTixx.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 RepositoryDIConfiguration.Configure(builder.Services);
 ServicesDIConfiguration.Configure(builder.Services, builder.Configuration);
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5173")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -32,6 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowLocalhost");
 
 app.UseAuthorization();
 
