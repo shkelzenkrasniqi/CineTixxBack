@@ -12,6 +12,7 @@ namespace CineTixx.Core
             services.AddScoped<ICinemaRoomService, CinemaRoomService>();
             services.AddScoped<ISeatService, SeatService>();
             services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IScreeningService, ScreeningService>();
         }
     }
 }

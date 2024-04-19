@@ -11,6 +11,7 @@ namespace CineTixx.Core
             CreateMap<CinemaRoom, CinemaRoomDto>().ReverseMap();
             CreateMap<Seat, SeatDto>().ReverseMap();
             CreateMap<Movie, MovieDto>().ReverseMap();
+            CreateMap<Screening, ScreeningDto>().ReverseMap();
         }
     }
 }
