@@ -12,5 +12,7 @@ namespace CineTixx.Persistence.Database
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Screening> Screenings { get; set; }
+        public DbSet<Staff> Staff { get; set; }
+        public DbSet<Position> Positions { get; set; }
     }
 }
