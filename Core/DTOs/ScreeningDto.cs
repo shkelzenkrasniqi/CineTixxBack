@@ -10,7 +10,6 @@ namespace CineTixx.Core.DTOs
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public Guid CinemaRoomId { get; set; }
-        public string CinemaRoomName { get; set; } 
         public Guid MovieId { get; set; }
         public string MovieName { get; set; }
     }
