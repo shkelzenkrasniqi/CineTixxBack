@@ -1,8 +1,5 @@
 using CineTixx.Core;
 using CineTixx.Core.Entities;
-using CineTixx.Core.Ports.Driven;
-using CineTixx.Core.Ports.Driving;
-using CineTixx.Core.Services;
 using CineTixx.Persistence;
 using CineTixx.Persistence.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.OpenApi.Models;
+using CineTixxBack;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 // Add services to the container.
@@ -20,6 +20,32 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        BearerFormat = "JWT",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Put Bearer + your token in the box below",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+
+    c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        jwtSecurityScheme, Array.Empty<string>()
+                    }
+                });
+});
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -39,7 +65,7 @@ builder.Services.AddCors(options =>
                    .AllowAnyMethod();
         });
 });
-builder.Services.AddIdentity<AppUser, IdentityRole>()
+builder.Services.AddIdentity<AppUser, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 builder.Services.AddAuthentication(options =>
@@ -61,6 +87,21 @@ builder.Services.AddAuthentication(options =>
 
     };
 });
+
+// Usage
+var configuration1 = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+var token = JwtTokenGenerator.GenerateToken(
+    configuration1["JWT:SecretKey"],
+    configuration1["JWT:ValidIssuer"],
+    configuration1["JWT:ValidAudience"],
+    60 // 60 minutes expiry
+);
+
+Console.WriteLine(token);
+
 //await RoleManagerUtil.CreateRoles(builder.Services.BuildServiceProvider());  For when we add the roles.
 var app = builder.Build();
 
@@ -72,6 +113,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors("AllowLocalhost");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
