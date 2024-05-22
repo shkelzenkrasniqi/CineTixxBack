@@ -31,6 +31,7 @@ namespace CineTixx.API.Controllers
             }
             return movieDto;
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddMovie(MovieDto MovieDto)
         {

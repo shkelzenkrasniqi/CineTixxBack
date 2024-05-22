@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace CineTixx.Core.DTOs.Account
 {
-    public class UserDto
+    public class RefreshTokenDto
     {
-        public Guid Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public string Token { get; set; }
-        public string RefreshToken { get; set; }
     }
+
 }

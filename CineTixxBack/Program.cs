@@ -1,5 +1,7 @@
 using CineTixx.Core;
 using CineTixx.Core.Entities;
+using CineTixx.Core.Ports.Driving;
+using CineTixx.Core.Services;
 using CineTixx.Persistence;
 using CineTixx.Persistence.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,12 +10,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 // Add services to the container.
-
+builder.Services.AddScoped<IRoleService, RolesService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -57,7 +60,12 @@ builder.Services.AddIdentityCore<AppUser>(opt =>
 
 
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SecretKey"]));
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+}
+);
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,6 +80,7 @@ builder.Services.AddAuthentication(options =>
             IssuerSigningKey = key,
             ValidateIssuer = false,
             ValidateAudience = false,
+            RoleClaimType = ClaimTypes.Role
         };
     });
 builder.Services.AddAuthorization();
@@ -95,7 +104,13 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleService = services.GetRequiredService<IRoleService>();
 
+    await roleService.CreateRoles();
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

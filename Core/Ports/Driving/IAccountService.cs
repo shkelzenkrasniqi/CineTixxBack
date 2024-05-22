@@ -12,5 +12,8 @@ namespace CineTixx.Core.Ports.Driving
     {
         Task<UserDto> Login(LoginDto loginDto);
         Task<UserDto> Register(RegisterDto registerDto);
+        Task<UserDto> RegisterAdmin(RegisterDto registerDto);
+        Task Logout(LogoutDto logoutDto);
+        Task<UserDto> RefreshToken(RefreshTokenDto refreshTokenDto);
     }
 }

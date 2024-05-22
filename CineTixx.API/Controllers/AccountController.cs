@@ -1,6 +1,7 @@
 ﻿using CineTixx.Core.DTOs.Account;
 using CineTixx.Core.Ports.Driving;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,6 @@ namespace CineTixx.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
     public class AccountController(IAccountService _accountService) : ControllerBase
     {
         [HttpPost("login")]
@@ -38,5 +38,39 @@ namespace CineTixx.API.Controllers
             }
         }
 
+        [HttpPost("registerAdmin")]
+        public async Task<IActionResult> RegisterAdmin(RegisterDto registerDto)
+        {
+            try
+            {
+                var user = await _accountService.RegisterAdmin(registerDto);
+                return CreatedAtAction(nameof(Login), new { id = user.Id }, user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout(LogoutDto logoutDto)
+        {
+            await _accountService.Logout(logoutDto);
+            return Ok();
+        }
+
+        [HttpPost("refreshToken")]
+        public async Task<IActionResult> RefreshToken(RefreshTokenDto refreshTokenDto)
+        {
+            try
+            {
+                var user = await _accountService.RefreshToken(refreshTokenDto);
+                return Ok(user);
+            }
+            catch (SecurityTokenException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+        }
     }
 }
