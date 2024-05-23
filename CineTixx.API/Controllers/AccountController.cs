@@ -1,5 +1,6 @@
 ﻿using CineTixx.Core.DTOs.Account;
 using CineTixx.Core.Ports.Driving;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -38,6 +39,7 @@ namespace CineTixx.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("registerAdmin")]
         public async Task<IActionResult> RegisterAdmin(RegisterDto registerDto)
         {

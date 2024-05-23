@@ -52,15 +52,33 @@ namespace CineTixx.Core.Services
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, UserRoles.User.ToString());
+                // Use synchronous count instead of asynchronous
+                var usersCount = _userManager.Users.Count();
+
+                // Assign role based on whether this is the first user
+                if (usersCount == 1)
+                {
+                    // First user, assign Admin role
+                    await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
+                }
+                else
+                {
+                    // Not the first user, assign User role
+                    await _userManager.AddToRoleAsync(user, UserRoles.User.ToString());
+                }
+
                 var userDto = _mapper.Map<UserDto>(user);
                 userDto.Token = await _tokenService.CreateToken(user);
                 userDto.RefreshToken = await _tokenService.CreateRefreshToken(user);
                 return userDto;
             }
 
-            throw new Exception("Failed to register the user");
+            // Log detailed errors
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            throw new Exception($"Failed to register the user: {errors}");
         }
+
+
 
         public async Task<UserDto> RegisterAdmin(RegisterDto registerDto)
         {
