@@ -170,6 +170,26 @@ namespace CineTixx.Persistence.Migrations
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("CineTixx.Core.Entities.Position", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PositionDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PositionName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Shift")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Positions");
+                });
+
             modelBuilder.Entity("CineTixx.Core.Entities.Screening", b =>
                 {
                     b.Property<Guid>("Id")
@@ -375,6 +395,33 @@ namespace CineTixx.Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+
+            modelBuilder.Entity("CineTixx.Core.Entities.Staff", b =>
+                {
+                    b.Property<Guid>("UniqueId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PositionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UniqueId");
+
+                    b.HasIndex("PositionId");
+
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("CineTixx.Core.Entities.Booking", b =>
@@ -424,6 +471,7 @@ namespace CineTixx.Persistence.Migrations
                     b.Navigation("CinemaRoom");
                 });
 
+
             modelBuilder.Entity("CineTixx.Core.Entities.SeatReservation", b =>
                 {
                     b.HasOne("CineTixx.Core.Entities.Screening", "Screening")
@@ -442,6 +490,7 @@ namespace CineTixx.Persistence.Migrations
 
                     b.Navigation("Seat");
                 });
+
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
@@ -492,6 +541,16 @@ namespace CineTixx.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+            modelBuilder.Entity("CineTixx.Core.Entities.Staff", b =>
+                {
+                    b.HasOne("CineTixx.Core.Entities.Position", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("CineTixx.Core.Entities.CinemaRoom", b =>
