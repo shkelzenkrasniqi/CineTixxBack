@@ -14,6 +14,8 @@ namespace CineTixx.Core
             CreateMap<Movie, MovieDto>().ReverseMap();
             CreateMap<Screening, ScreeningDto>().ReverseMap();
             CreateMap<AppUser, UserDto>().ReverseMap();
+            CreateMap<Staff, StaffDto>().ReverseMap();
+            CreateMap<Position, PositionDto>().ReverseMap();
 
         }
     }
