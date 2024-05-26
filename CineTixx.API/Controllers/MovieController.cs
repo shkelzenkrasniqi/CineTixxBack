@@ -4,10 +4,12 @@ using AutoMapper;
 using CineTixx.Core.DTOs;
 using CineTixx.Core.Ports.Driving;
 using CineTixx.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineTixx.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MovieController(IMovieService _movieService, IMapper _mapper) : ControllerBase
@@ -29,6 +31,7 @@ namespace CineTixx.API.Controllers
             }
             return movieDto;
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddMovie(MovieDto MovieDto)
         {

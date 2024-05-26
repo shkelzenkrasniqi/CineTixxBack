@@ -1,9 +1,11 @@
 ﻿using CineTixx.Core.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CineTixx.Persistence.Database
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -12,6 +14,7 @@ namespace CineTixx.Persistence.Database
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Screening> Screenings { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Position> Positions { get; set; }
     }
