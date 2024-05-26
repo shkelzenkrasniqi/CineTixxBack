@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CineTixx.API.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MovieController(IMovieService _movieService, IMapper _mapper) : ControllerBase

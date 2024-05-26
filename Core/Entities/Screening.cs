@@ -4,6 +4,7 @@ namespace CineTixx.Core.Entities
     public class Screening
     {
         public Guid Id { get; set; }
+        public decimal Price { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public Guid CinemaRoomId { get; set; }

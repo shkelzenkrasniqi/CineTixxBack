@@ -15,6 +15,8 @@ namespace CineTixx.Core
             services.AddScoped<IScreeningService, ScreeningService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IBookingService, BookingService>();
+
         }
     }
 }

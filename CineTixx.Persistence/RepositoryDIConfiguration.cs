@@ -15,7 +15,8 @@ namespace CineTixx.Persistence
             services.AddScoped<ISeatRepository, SeatRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IScreeningRepository, ScreeningRepository>();
-
+            services.AddScoped<IBookingRepository, BookingRepository>();
+            services.AddScoped<ISeatReservationRepository, SeatReservationRepository>();
         }
     }
 }

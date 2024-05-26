@@ -7,6 +7,12 @@ namespace CineTixx.Persistence.Repositories
 {
     internal sealed class SeatRepository(ApplicationDbContext _context) : ISeatRepository
     {
+        public async Task<IEnumerable<Seat>> GetSeatsForCinemaRoomAsync(Guid cinemaRoomId)
+        {
+            return await _context.Seats
+                .Where(s => s.CinemaRoomId == cinemaRoomId)
+                .ToListAsync();
+        }
         public async Task<IEnumerable<Seat>> GetAllAsync()
         {
             return await _context.Seats.ToListAsync();

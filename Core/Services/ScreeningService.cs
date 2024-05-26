@@ -6,7 +6,7 @@ using CineTixx.Core.Ports.Driving;
 
 namespace CineTixx.Core.Services
 {
-    public class ScreeningService(IScreeningRepository _screeningRepository, ICinemaRoomRepository _cinemaRoomRepository, IMovieRepository _movieRepository, IMapper _mapper) : IScreeningService
+    public class ScreeningService(IScreeningRepository _screeningRepository, ICinemaRoomRepository _cinemaRoomRepository, IMovieRepository _movieRepository, IMapper _mapper, IBookingRepository _bookingRepository) : IScreeningService
     {
         public async Task<IEnumerable<ScreeningDto>> GetAllScreeningsAsync()
         {

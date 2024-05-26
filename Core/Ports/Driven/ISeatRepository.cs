@@ -9,5 +9,6 @@ namespace CineTixx.Core.Ports.Driven
         Task AddAsync(Seat seat);
         Task UpdateAsync(Seat seat);
         Task DeleteAsync(Guid id);
+        Task<IEnumerable<Seat>> GetSeatsForCinemaRoomAsync(Guid cinemaRoomId);
     }
 }
