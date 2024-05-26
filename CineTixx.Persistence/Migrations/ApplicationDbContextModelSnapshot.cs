@@ -396,168 +396,170 @@ namespace CineTixx.Persistence.Migrations
 
                     b.ToTable("AspNetUserTokens", (string)null);
 
-            modelBuilder.Entity("CineTixx.Core.Entities.Staff", b =>
-                {
-                    b.Property<Guid>("UniqueId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    modelBuilder.Entity("CineTixx.Core.Entities.Staff", b =>
+                        {
+                            b.Property<Guid>("UniqueId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                            b.Property<string>("Address")
+                                .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
+                            b.Property<string>("Department")
+                                .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PositionId")
-                        .HasColumnType("uniqueidentifier");
+                            b.Property<Guid>("PositionId")
+                                .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(18,2)");
+                            b.Property<decimal>("Salary")
+                                .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                            b.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("UniqueId");
+                            b.HasKey("UniqueId");
 
-                    b.HasIndex("PositionId");
+                            b.HasIndex("PositionId");
 
-                    b.ToTable("Staff");
-                });
+                            b.ToTable("Staff");
+                        });
 
-            modelBuilder.Entity("CineTixx.Core.Entities.Booking", b =>
-                {
-                    b.HasOne("CineTixx.Core.Entities.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
+                    modelBuilder.Entity("CineTixx.Core.Entities.Booking", b =>
+                        {
+                            b.HasOne("CineTixx.Core.Entities.AppUser", "AppUser")
+                                .WithMany()
+                                .HasForeignKey("AppUserId");
 
-                    b.HasOne("CineTixx.Core.Entities.Screening", "Screening")
-                        .WithMany()
-                        .HasForeignKey("ScreeningId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b.HasOne("CineTixx.Core.Entities.Screening", "Screening")
+                                .WithMany()
+                                .HasForeignKey("ScreeningId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("AppUser");
+                            b.Navigation("AppUser");
 
-                    b.Navigation("Screening");
-                });
+                            b.Navigation("Screening");
+                        });
 
-            modelBuilder.Entity("CineTixx.Core.Entities.Screening", b =>
-                {
-                    b.HasOne("CineTixx.Core.Entities.CinemaRoom", "CinemaRoom")
-                        .WithMany()
-                        .HasForeignKey("CinemaRoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("CineTixx.Core.Entities.Screening", b =>
+                        {
+                            b.HasOne("CineTixx.Core.Entities.CinemaRoom", "CinemaRoom")
+                                .WithMany()
+                                .HasForeignKey("CinemaRoomId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.HasOne("CineTixx.Core.Entities.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b.HasOne("CineTixx.Core.Entities.Movie", "Movie")
+                                .WithMany()
+                                .HasForeignKey("MovieId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("CinemaRoom");
+                            b.Navigation("CinemaRoom");
 
-                    b.Navigation("Movie");
-                });
+                            b.Navigation("Movie");
+                        });
 
-            modelBuilder.Entity("CineTixx.Core.Entities.Seat", b =>
-                {
-                    b.HasOne("CineTixx.Core.Entities.CinemaRoom", "CinemaRoom")
-                        .WithMany("Seats")
-                        .HasForeignKey("CinemaRoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("CineTixx.Core.Entities.Seat", b =>
+                        {
+                            b.HasOne("CineTixx.Core.Entities.CinemaRoom", "CinemaRoom")
+                                .WithMany("Seats")
+                                .HasForeignKey("CinemaRoomId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("CinemaRoom");
-                });
-
-
-            modelBuilder.Entity("CineTixx.Core.Entities.SeatReservation", b =>
-                {
-                    b.HasOne("CineTixx.Core.Entities.Screening", "Screening")
-                        .WithMany()
-                        .HasForeignKey("ScreeningId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CineTixx.Core.Entities.Seat", "Seat")
-                        .WithMany()
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Screening");
-
-                    b.Navigation("Seat");
-                });
+                            b.Navigation("CinemaRoom");
+                        });
 
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                    modelBuilder.Entity("CineTixx.Core.Entities.SeatReservation", b =>
+                        {
+                            b.HasOne("CineTixx.Core.Entities.Screening", "Screening")
+                                .WithMany()
+                                .HasForeignKey("ScreeningId")
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired();
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
-                {
-                    b.HasOne("CineTixx.Core.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                            b.HasOne("CineTixx.Core.Entities.Seat", "Seat")
+                                .WithMany()
+                                .HasForeignKey("SeatId")
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired();
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-                {
-                    b.HasOne("CineTixx.Core.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                            b.Navigation("Screening");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b.Navigation("Seat");
+                        });
 
-                    b.HasOne("CineTixx.Core.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
-                {
-                    b.HasOne("CineTixx.Core.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                        {
+                            b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                                .WithMany()
+                                .HasForeignKey("RoleId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+                        });
 
-            modelBuilder.Entity("CineTixx.Core.Entities.Staff", b =>
-                {
-                    b.HasOne("CineTixx.Core.Entities.Position", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                        {
+                            b.HasOne("CineTixx.Core.Entities.AppUser", null)
+                                .WithMany()
+                                .HasForeignKey("UserId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+                        });
 
-                    b.Navigation("Position");
-                });
+                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                        {
+                            b.HasOne("CineTixx.Core.Entities.AppUser", null)
+                                .WithMany()
+                                .HasForeignKey("UserId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+                        });
 
-            modelBuilder.Entity("CineTixx.Core.Entities.CinemaRoom", b =>
-                {
-                    b.Navigation("Seats");
-                });
+                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                        {
+                            b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                                .WithMany()
+                                .HasForeignKey("RoleId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            b.HasOne("CineTixx.Core.Entities.AppUser", null)
+                                .WithMany()
+                                .HasForeignKey("UserId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+                        });
+
+                    modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                        {
+                            b.HasOne("CineTixx.Core.Entities.AppUser", null)
+                                .WithMany()
+                                .HasForeignKey("UserId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            modelBuilder.Entity("CineTixx.Core.Entities.Staff", b =>
+                        {
+                            b.HasOne("CineTixx.Core.Entities.Position", "Position")
+                                .WithMany()
+                                .HasForeignKey("PositionId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            b.Navigation("Position");
+                        });
+
+                            modelBuilder.Entity("CineTixx.Core.Entities.CinemaRoom", b =>
+                        {
+                            b.Navigation("Seats");
+                        });
 #pragma warning restore 612, 618
+                        });
+                });
         }
     }
 }
