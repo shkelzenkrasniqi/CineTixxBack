@@ -44,5 +44,10 @@ namespace CineTixx.Core.Services
             var movies = await _movieRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<MovieDto>>(movies);
         }
+        public async Task<IEnumerable<ScreeningDto>> GetScreeningsByMovieIdAsync(Guid movieId)
+        {
+            var screenings = await _screeningRepository.GetScreeningsByMovieIdAsync(movieId);
+            return _mapper.Map<IEnumerable<ScreeningDto>>(screenings);
+        }
     }
 }

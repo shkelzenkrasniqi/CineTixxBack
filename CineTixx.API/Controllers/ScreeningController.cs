@@ -80,6 +80,11 @@ namespace CineTixx.API.Controllers
 
             return NoContent();
         }
-
+        [HttpGet("movie/{movieId}")]
+        public async Task<ActionResult<IEnumerable<ScreeningDto>>> GetScreeningsByMovieId(Guid movieId)
+        {
+            var screenings = await _screeningService.GetScreeningsByMovieIdAsync(movieId);
+            return Ok(screenings);
+        }
     }
 }

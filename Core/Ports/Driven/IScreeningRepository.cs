@@ -9,5 +9,6 @@ namespace CineTixx.Core.Ports.Driven
         Task AddAsync(Screening screening);
         Task UpdateAsync(Screening screening);
         Task DeleteAsync(Guid id);
+        Task<IEnumerable<Screening>> GetScreeningsByMovieIdAsync(Guid movieId);
     }
 }

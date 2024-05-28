@@ -34,5 +34,12 @@ namespace CineTixx.Persistence.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<IEnumerable<Screening>> GetScreeningsByMovieIdAsync(Guid movieId)
+        {
+            return await _context.Screenings
+                .Where(s => s.MovieId == movieId)
+                .Include(s => s.CinemaRoom) 
+                .ToListAsync();
+        }
     }
 }
