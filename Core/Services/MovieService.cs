@@ -3,6 +3,8 @@ using CineTixx.Core.DTOs;
 using CineTixx.Core.Entities;
 using CineTixx.Core.Ports.Driven;
 using CineTixx.Core.Ports.Driving;
+using Microsoft.AspNetCore.Http;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace CineTixx.Core.Services
 {
@@ -26,10 +28,14 @@ namespace CineTixx.Core.Services
             var movie = await _movieRepository.GetByIdAsync(id);
             return _mapper.Map<MovieDto>(movie);
         }
-        public async Task AddMovieAsync(MovieDto movieDto)
+        public async Task<MovieDto> AddMovieAsync(MovieDto movieDto, List<IFormFile> photos)
         {
             var movie = _mapper.Map<Movie>(movieDto);
+            await AddPhotosToMovieAsync(movie, photos);
+
             await _movieRepository.AddAsync(movie);
+            return _mapper.Map<MovieDto>(movie);
+
         }
         public async Task UpdateMovieAsync(MovieDto movieDto)
         {
@@ -40,6 +46,25 @@ namespace CineTixx.Core.Services
         {
             await _movieRepository.DeleteAsync(id);
         }
+        private async Task AddPhotosToMovieAsync(Movie movie, List<IFormFile> photos)
+        {
+            if (photos != null && photos.Count > 0)
+            {
+                movie.Photos = new List<MoviePhoto>();
 
+                foreach (var photo in photos)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await photo.CopyToAsync(memoryStream);
+                        movie.Photos.Add(new MoviePhoto
+                        {
+                            PhotoData = memoryStream.ToArray(),
+                            ContentType = photo.ContentType
+                        });
+                    }
+                }
+            }
+        }
     }
 }

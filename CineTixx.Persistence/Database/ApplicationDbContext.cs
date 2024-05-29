@@ -19,6 +19,7 @@ namespace CineTixx.Persistence.Database
         public DbSet<SeatReservation> SeatReservations { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Position> Positions { get; set; }
+        public DbSet<MoviePhoto> MoviePhotos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure SeatReservation relationships

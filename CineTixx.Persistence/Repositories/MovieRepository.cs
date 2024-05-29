@@ -8,11 +8,15 @@ namespace CineTixx.Persistence.Repositories
     {
         public async Task<IEnumerable<Movie>> GetAllAsync()
         {
-            return await _context.Movies.ToListAsync();
+            return await _context.Movies
+                .Include(c => c.Photos)
+                .ToListAsync();
         }
         public async Task<Movie> GetByIdAsync(Guid id)
         {
-            return await _context.Movies.FindAsync(id);
+            return await _context.Movies
+                .Include(c => c.Photos)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task AddAsync(Movie movie)
         {

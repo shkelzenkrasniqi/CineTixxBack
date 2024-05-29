@@ -7,6 +7,7 @@ namespace CineTixx.Core.Entities
         public string MovieName { get; set; }
         public string MovieDescription { get; set;}
         public string MovieTrailer { get; set;}
+        public List<MoviePhoto> Photos { get; set; }
 
     }
 }

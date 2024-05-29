@@ -5,6 +5,7 @@ using CineTixx.Core.DTOs;
 using CineTixx.Core.Ports.Driving;
 using CineTixx.Core.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineTixx.API.Controllers
@@ -30,12 +31,18 @@ namespace CineTixx.API.Controllers
             }
             return movieDto;
         }
-        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddMovie(MovieDto MovieDto)
+        public async Task<ActionResult<MovieDto>> AddMovie([FromForm] MovieDto movieDto, [FromForm] List<IFormFile> photos)
         {
-            await _movieService.AddMovieAsync(MovieDto);
-            return Ok();
+            try
+            {
+                var createdMovie = await _movieService.AddMovieAsync(movieDto, photos);
+                return CreatedAtAction(nameof(GetMovie), new { id = createdMovie.Id }, createdMovie);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMovie(Guid id, MovieDto movieDto)
