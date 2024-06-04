@@ -33,7 +33,7 @@ namespace CineTixx.Core.Services
                 userDto.Token = await _tokenService.CreateToken(user);
                 userDto.RefreshToken = await _tokenService.CreateRefreshToken(user);
                 return userDto;
-               
+
             }
 
             return null;
@@ -41,6 +41,19 @@ namespace CineTixx.Core.Services
 
         public async Task<UserDto> Register(RegisterDto registerDto)
         {
+            // Check if the user already exists
+            var existingUser = await _userManager.FindByEmailAsync(registerDto.Email);
+            if (existingUser != null)
+            {
+                throw new Exception("User already exists");
+            }
+
+            // Validate password
+            if (!IsValidPassword(registerDto.Password))
+            {
+                throw new Exception("Password must contain at least one uppercase letter, one number, and one symbol");
+            }
+
             var user = new AppUser
             {
                 UserName = registerDto.UserName,
@@ -52,18 +65,13 @@ namespace CineTixx.Core.Services
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (result.Succeeded)
             {
-                // Use synchronous count instead of asynchronous
                 var usersCount = _userManager.Users.Count();
-
-                // Assign role based on whether this is the first user
                 if (usersCount == 1)
                 {
-                    // First user, assign Admin role
                     await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
                 }
                 else
                 {
-                    // Not the first user, assign User role
                     await _userManager.AddToRoleAsync(user, UserRoles.User.ToString());
                 }
 
@@ -73,9 +81,19 @@ namespace CineTixx.Core.Services
                 return userDto;
             }
 
-            // Log detailed errors
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));
             throw new Exception($"Failed to register the user: {errors}");
+        }
+
+        // Helper method to validate password
+        private bool IsValidPassword(string password)
+        {
+            var hasUpperCase = password.Any(char.IsUpper);
+            var hasLowerCase = password.Any(char.IsLower);
+            var hasDigits = password.Any(char.IsDigit);
+            var hasSymbols = password.Any(ch => !char.IsLetterOrDigit(ch));
+
+            return hasUpperCase && hasLowerCase && hasDigits && hasSymbols;
         }
 
 

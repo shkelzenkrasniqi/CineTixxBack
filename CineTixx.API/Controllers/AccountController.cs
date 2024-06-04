@@ -22,7 +22,7 @@ namespace CineTixx.API.Controllers
             if (user != null)
                 return Ok(user);
 
-            return BadRequest("Invalid email or password");
+            return BadRequest(new { message = "Invalid email or password" });
         }
 
         [HttpPost("register")]
@@ -35,6 +35,11 @@ namespace CineTixx.API.Controllers
             }
             catch (Exception ex)
             {
+                if (ex.Message == "User already exists" || ex.Message.Contains("Password"))
+                {
+                    return BadRequest(new { message = ex.Message });
+                }
+
                 return StatusCode(500, ex.Message);
             }
         }
