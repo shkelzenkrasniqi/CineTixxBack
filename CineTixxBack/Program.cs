@@ -154,7 +154,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors("AllowLocalhost");
-
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 

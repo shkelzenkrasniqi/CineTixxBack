@@ -1,11 +1,8 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using CineTixx.Core.DTOs;
 using CineTixx.Core.Ports.Driving;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CineTixx.API.Controllers
 {
@@ -41,8 +38,26 @@ namespace CineTixx.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComingSoon(ComingSoonDto comingSoonDto)
+        public async Task<IActionResult> AddComingSoon([FromForm] ComingSoonDto comingSoonDto, IFormFile photo)
         {
+            if (photo != null && photo.Length > 0)
+            {
+                // Define the path to save the uploaded photo
+                var uploadsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+                Directory.CreateDirectory(uploadsDirectory); // Ensure the directory exists
+
+                var filePath = Path.Combine(uploadsDirectory, photo.FileName);
+
+                // Save the file to the server
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await photo.CopyToAsync(stream);
+                }
+
+                // Set the PhotoUrl property
+                comingSoonDto.PhotoUrl = $"/images/{photo.FileName}";
+            }
+
             await _comingSoonService.AddComingSoonAsync(comingSoonDto);
             return Ok();
         }
