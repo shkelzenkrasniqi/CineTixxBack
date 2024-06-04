@@ -18,6 +18,7 @@ namespace CineTixx.Core
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IStaffService, StaffService>();
             services.AddScoped<IPositionService, PositionService>();
+            services.AddScoped<IComingSoonService, ComingSoonService>();
         }
     }
 }
