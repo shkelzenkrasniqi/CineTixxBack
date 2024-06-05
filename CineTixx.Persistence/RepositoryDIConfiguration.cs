@@ -20,7 +20,7 @@ namespace CineTixx.Persistence
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IPositionRepository, PositionRepository>();
             services.AddScoped<IComingSoonRepository, ComingSoonRepository>();
-
+            services.AddScoped<IEventRepository, EventRepository>();
         }
     }
 }

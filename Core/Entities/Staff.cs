@@ -11,9 +11,7 @@ namespace CineTixx.Core.Entities
         public string Address { get; set; }
         public Guid PositionId { get; set; } // Foreign key
         public Position Position { get; set; } // Navigation property
-
-
         public Guid UserId { get; set; } // Foreign key (assuming relation with user)
-                                         // public User User { get; set; } 
+        public AppUser User { get; set; } 
     }
 }
