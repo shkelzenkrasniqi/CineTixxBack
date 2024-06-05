@@ -13,7 +13,9 @@ namespace CineTixx.Persistence.Repositories
         }
         public async Task<Screening> GetByIdAsync(Guid id)
         {
-            return await _context.Screenings.FindAsync(id);
+            return await _context.Screenings
+                .Include(s => s.CinemaRoom)
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
         public async Task AddAsync(Screening screening)
         {
