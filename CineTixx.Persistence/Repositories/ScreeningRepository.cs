@@ -15,6 +15,7 @@ namespace CineTixx.Persistence.Repositories
         {
             return await _context.Screenings
                 .Include(s => s.CinemaRoom)
+                .Include(s => s.Movie)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
         public async Task AddAsync(Screening screening)

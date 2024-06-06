@@ -15,11 +15,19 @@ namespace CineTixx.Persistence.Repositories
         }
         public async Task<IEnumerable<Booking>> GetAllAsync()
         {
-            return await _context.Bookings.ToListAsync();
+            return await _context.Bookings
+                .Include(b => b.Screening)
+                    .ThenInclude(s => s.Movie)
+                .Include(b => b.Screening)
+                    .ThenInclude(s => s.CinemaRoom)
+                .ToListAsync();
         }
+
+
         public async Task<Booking> GetByIdAsync(Guid id)
         {
-            return await _context.Bookings.FindAsync(id);
+            return await _context.Bookings.Include(b => b.Screening)
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task AddAsync(Booking booking)
