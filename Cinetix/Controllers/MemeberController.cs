@@ -40,14 +40,22 @@ namespace Cinetix.Controllers
 
         // POST: api/member
         [HttpPost]
-        public async Task<ActionResult<Member>> CreateMember(Member member)
+        [HttpPost]
+        public async Task<ActionResult<Member>> CreateMember(MemberDto memberDto)
         {
-            // Ensure the related Group exists
-            var groupExists = await _context.Groups.AnyAsync(g => g.Id == member.GroupId);
+            var groupExists = await _context.Groups.AnyAsync(g => g.Id == memberDto.GroupId);
             if (!groupExists)
             {
                 return BadRequest("Invalid GroupId");
             }
+
+            var member = new Member
+            {
+                Id = memberDto.Id,
+                Name = memberDto.Name,
+                Role = memberDto.Role,
+                GroupId = memberDto.GroupId
+            };
 
             _context.Members.Add(member);
             await _context.SaveChangesAsync();
@@ -55,35 +63,39 @@ namespace Cinetix.Controllers
             return CreatedAtAction(nameof(GetMember), new { id = member.Id }, member);
         }
 
+
         // PUT: api/member/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMember(int id, Member member)
+        public async Task<IActionResult> UpdateMember(int id, MemberDto memberDto)
         {
-            if (id != member.Id)
+            // Check if the member exists
+            var member = await _context.Members.FindAsync(id);
+            if (member == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
+            // Check if the provided GroupId is valid
+            var groupExists = await _context.Groups.AnyAsync(g => g.Id == memberDto.GroupId);
+            if (!groupExists)
+            {
+                return BadRequest("Invalid GroupId");
+            }
+
+            // Update member properties
+            member.Name = memberDto.Name;
+            member.Role = memberDto.Role;
+            member.GroupId = memberDto.GroupId;
+
+            // Mark the member entity as modified
             _context.Entry(member).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Members.Any(m => m.Id == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            // Save changes to the database
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
 
         // DELETE: api/member/{id}
         [HttpDelete("{id}")]
