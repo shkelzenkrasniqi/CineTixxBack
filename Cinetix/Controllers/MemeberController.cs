@@ -1,7 +1,6 @@
 ﻿using Cinetix.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace Cinetix.Controllers
 {
@@ -39,22 +38,22 @@ namespace Cinetix.Controllers
             return Ok(member);
         }
 
+        // POST: api/member
         [HttpPost]
-        public async Task<ActionResult<Member>> CreateMember([FromBody] Member member)
+        public async Task<ActionResult<Member>> CreateMember(Member member)
         {
-            // Check if the GroupId is valid
-            if (!await _context.Groups.AnyAsync(g => g.Id == member.GroupId))
+            // Ensure the related Group exists
+            var groupExists = await _context.Groups.AnyAsync(g => g.Id == member.GroupId);
+            if (!groupExists)
             {
-                return BadRequest(new { errors = new { Group = new[] { "Invalid GroupId" } } });
+                return BadRequest("Invalid GroupId");
             }
 
-            // Add the new member
             _context.Members.Add(member);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetMember), new { id = member.Id }, member);
         }
-
 
         // PUT: api/member/{id}
         [HttpPut("{id}")]

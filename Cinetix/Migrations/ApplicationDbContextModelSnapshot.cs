@@ -71,17 +71,12 @@ namespace Cinetix.Migrations
             modelBuilder.Entity("Cinetix.Models.Member", b =>
                 {
                     b.HasOne("Cinetix.Models.Group", "Group")
-                        .WithMany("Members")
+                        .WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Group");
-                });
-
-            modelBuilder.Entity("Cinetix.Models.Group", b =>
-                {
-                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }
